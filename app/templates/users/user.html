@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="content">
+    <div class ="card">
+        <div class="card-header">
+            id = {{ user.id }}
+            <h2>Username: {{ user.username }}</h2>
+        </div>
+        <div class="card-body">
+            <div>Phone: {{ user.phone }}</div>
+            <div>Email: {{ user.email }}</div>
+            <div>Registered: {{ user.registered }}</div>
+            <div>Bonusactions: {% for bonusaction in user.bonusactions %} <div class="item">{{ bonusaction }}</div>{% endfor %}</div>
+            <div>Bonuses: {% for bonus in user.bonuses %} <div class="item">{{ bonus }}</div>{% endfor %}</div>
+            <div>Tags: {% for tag in user.tags %} <div class="item">{{ tag }}</div>{% endfor %}</div>
+            <div>Rewardactions: {% for rewardaction in user.rewardactions %} <div class="item">{{ rewardaction }}</div>{% endfor %}</div>
+            <div>Rewards: {% for reward in user.rewards %} <div class="item">{{ reward }}</div>{% endfor %}</div>
+    </div>
+</div>
+
+{% endblock %}

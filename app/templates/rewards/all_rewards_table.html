@@ -1,0 +1,37 @@
+<a href="{{ url_for('rewards.new_reward') }}">New reward</a>
+
+<table id="rewards">
+    <tr class="header">
+        <th>ID</th>
+        <th>Name</th>
+        <th>Points Costs</th>
+        <th>Description</th>
+
+        <th>Reward Actions</th>
+        <th>Tags</th>
+        <th>Actions</th>
+
+    </tr>
+
+    {% for reward in rewards %}
+    <tr class="reward_data">
+        <td><a href="url_for('rewards.reward', id=reward.id)">{{ reward.id }}</td>
+        <td>{{ reward.name }}</td>
+        <td>{{ reward.points_costs }}</td>
+        <td>{{ reward.description }}</td>
+        <td>
+            {% for action in reward.rewardactions %}
+                <div class="item">{{ action.name }}</div>
+            {% endfor %}
+        </td>
+        <td>
+            {% for tag in reward.tags %}
+                <div class="item">{{ tag.name }}</div>
+            {% endfor %}
+        </td>
+        <td class="actions">
+            <a href="url_for('rewards.delete', id=reward.id)">❌</a>
+        </td>
+    </tr>
+    {% endfor %}
+</table>

@@ -1,0 +1,29 @@
+<a href="{{ url_for('bonusactions.new_bonusaction') }}">New bonus action form</a>
+
+<table id="bonusactions">
+    <tr class="header">
+        <th>ID</th>
+        <th>Name</th>
+        <th>Created</th>
+        <th>Bonus</th>
+        <th>User</th>
+        <th>Points</th>
+        <th>Company</th>
+        <th>Actions</th>
+    </tr>
+
+    {% for bonusaction in bonusactions %}
+    <tr class="bonus_data">
+        <td><a href="{{ url_for('bonusactions.bonusaction', bonusaction_id=bonusaction.id) }}">{{ bonusaction.id }}</a></td>
+        <td>{{ bonusaction.name }}</td>
+        <td>{{ bonusaction.date_created }}</td>
+        <td>{{ bonusaction.bonus }}</td>
+        <td>{{ bonusaction.user }}</td>
+        <td>{{ bonusaction.bonus.points_value }}</td>
+        <td>{{ bonusaction.company }}</td>
+        <td class="actions">
+            <a href="{{ url_for('bonusactions.delete', id=bonusaction.id) }}">❌</a>
+        </td>
+    </tr>
+    {% endfor %}
+</table>

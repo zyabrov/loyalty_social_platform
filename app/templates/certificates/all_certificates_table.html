@@ -1,0 +1,32 @@
+
+<table id="certificates">
+    <tr class="header">
+        <th>ID</th>
+        <th>Code</th>
+        <th>Activated</th>
+        <th>Used</th>
+        <th>Status</th>
+        <th>User</th>
+        <th>Company</th>
+        <th>Points</th>
+        <th>RewardAction</th>
+        <th>Actions</th>
+    </tr>
+
+    {% for certificate in certificates %}
+    <tr class="certificate_data">
+        <td><a href="url_for('certificates.certificate', id=certificate.id)">{{ certificate.id }}</td>
+        <td>{{ certificate.cert_code }}</td>
+        <td>{{ certificate.activated_date }}</td>
+        <td>{{ certificate.used_date }}</td>
+        <td>{{ certificate.status }}</td>
+        <td>{{ certificate.user }}</td>
+        <td>{{ certificate.company }}</td>
+        <td>{{ certificate.points }}</td>
+        <td>{{ certificate.rewardaction }}</td>
+        <td class="actions">
+            <a href="{{ url_for('certificates.delete', id=certificate.id) }}">❌</a>
+        </td>
+    </tr>
+    {% endfor %}
+</table>
