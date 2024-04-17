@@ -1,7 +1,8 @@
 from flask import render_template, request, jsonify
 from app.bonusactions import bp
 from app import db
-from app.models import BonusAction, Bonus, BonusBase, User, Company
+from app.bonusactions.models import BonusAction 
+from app.models import Bonus, BonusBase, User, Company
 from app.forms import NewBonusActionForm
 from datetime import datetime
 from flask_login import login_required

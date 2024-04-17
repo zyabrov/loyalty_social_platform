@@ -1,18 +1,19 @@
 from flask import render_template, request, jsonify
 from app.bonuses import bp
 from app import db
-from app.models import Bonus, BonusBase
+from app.bonuses.models import Bonus
+from app.bonuses_base.models import BonusBase
 from app.forms import NewBonusForm
 
 
 @bp.route('/', methods=['GET'])
 def all_bonuses():
-    return render_template('bonuses/index.html', bonuses=Bonus.query.all())
+    return render_template('index.html', bonuses=Bonus.query.all())
 
 
 @bp.route('/<bonus_id>', methods=['GET'])
 def bonus(bonus_id):
-    return render_template('bonuses/bonus.html', bonus=Bonus.query.get(bonus_id))
+    return render_template('bonus.html', bonus=Bonus.query.get(bonus_id))
 
 @bp.route('/new_bonus', methods=['GET', 'POST'])
 def new_bonus():
