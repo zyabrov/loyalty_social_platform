@@ -1,5 +1,8 @@
 from app.extensions import db, login_manager
 from flask_login import UserMixin
+from app.bonuses.models import Bonus
+from app.rewards.models import Reward
+from app.models.tag import Tag
 
 
 user_bonus = db.Table(

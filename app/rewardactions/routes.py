@@ -1,8 +1,11 @@
 from flask import render_template, request, jsonify, url_for
 from app.rewardactions import bp
 from app import db
-from app.models import User, Reward, RewardAction, Company
-from app.forms import NewRewardActionForm
+from app.users.models import User
+from app.rewards.models import Reward
+from app.rewardactions.models import RewardAction
+from app.companies.models import Company
+from app.rewardactions.forms import NewRewardActionForm
 from datetime import datetime
 from flask_login import login_required
 from app.extensions import requests

@@ -1,7 +1,7 @@
 from flask_wtf import FlaskForm
 from wtforms import StringField, TextAreaField, SubmitField, SearchField, SelectField, BooleanField, HiddenField, FieldList, FormField, SelectMultipleField, DateTimeField, IntegerField
 from wtforms.validators import InputRequired, DataRequired
-from app.models import Reward
+from app.rewards.models import Reward
 
 class NewRewardForm(FlaskForm):
     points_costs = IntegerField('Points Costs', validators=[InputRequired()])

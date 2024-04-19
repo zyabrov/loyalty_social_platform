@@ -1,7 +1,8 @@
 from flask_wtf import FlaskForm
 from wtforms import StringField, TextAreaField, SubmitField, SearchField, SelectField, BooleanField, HiddenField, FieldList, FormField, SelectMultipleField, DateTimeField, IntegerField
 from wtforms.validators import InputRequired, DataRequired
-from app.models import Reward, User
+from app.rewards.models import Reward
+from app.users.models import User
 
 
 class NewRewardActionForm(FlaskForm):

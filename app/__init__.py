@@ -20,7 +20,7 @@ def create_app(config_class=Config):
     app.register_blueprint(main_bp)
 
     from app.users import bp as users_bp
-    app.register_blueprint(users_bp, url_prefix='/users')
+    app.register_blueprint(users_bp)
 
     from app.bonuses import bp as bonuses_bp
     app.register_blueprint(bonuses_bp, url_prefix='/bonuses')

@@ -1,7 +1,7 @@
 from flask import render_template, request, make_response, jsonify
 from app.certificates import bp
 from app import db
-from app.models import Certificate
+from app.certificates.models import Certificate
 # from app.forms import NewCertificateForm
 from datetime import datetime
 

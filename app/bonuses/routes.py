@@ -3,7 +3,7 @@ from app.bonuses import bp
 from app import db
 from app.bonuses.models import Bonus
 from app.bonuses_base.models import BonusBase
-from app.forms import NewBonusForm
+from app.bonuses.forms import NewBonusForm
 
 
 @bp.route('/', methods=['GET'])

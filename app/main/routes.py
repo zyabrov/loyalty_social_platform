@@ -1,13 +1,13 @@
 from flask import render_template
 from app.main import bp
 from app import db
-from app.forms import LoginForm, SignUpForm
-from app.models import User
+from app.auth.forms import LoginForm
+from app.auth.forms import SignUpForm
+from app.users.models import User
 from flask_login import login_required, login_user
 
 
-@bp.route('/')
-@login_required
+@bp.route('/', methods=['GET'])
 def index():
     return render_template('index.html')
 

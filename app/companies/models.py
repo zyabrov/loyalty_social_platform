@@ -1,4 +1,7 @@
 from app.extensions import db
+from app.models.tag import Tag
+from app.users.models import User
+from app.channels.models import Channel
 
 
 company_user = db.Table(
