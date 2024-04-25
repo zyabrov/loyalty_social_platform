@@ -19,14 +19,17 @@ def create_app(config_class=Config):
     from app.main import bp as main_bp
     app.register_blueprint(main_bp)
 
+    from app.admins import bp as admins_bp
+    app.register_blueprint(admins_bp)
+
     from app.users import bp as users_bp
     app.register_blueprint(users_bp)
 
     from app.bonuses import bp as bonuses_bp
-    app.register_blueprint(bonuses_bp, url_prefix='/bonuses')
+    app.register_blueprint(bonuses_bp)
 
     from app.bonusactions import bp as bonusactions_bp
-    app.register_blueprint(bonusactions_bp, url_prefix='/bonusactions')
+    app.register_blueprint(bonusactions_bp)
 
     from app.bonuses_base import bp as bonuses_base_bp
     app.register_blueprint(bonuses_base_bp)
@@ -38,7 +41,7 @@ def create_app(config_class=Config):
     app.register_blueprint(certificates_bp, url_prefix='/certificates')
 
     from app.rewards import bp as rewards_bp
-    app.register_blueprint(rewards_bp, url_prefix='/rewards')
+    app.register_blueprint(rewards_bp)
 
     
     return app

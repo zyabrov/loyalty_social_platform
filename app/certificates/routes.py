@@ -8,12 +8,12 @@ from datetime import datetime
 
 @bp.route('/', methods=['GET'])
 def all_certificates():
-    return render_template('certificates/index.html', certificates=Certificate.query.all())
+    return render_template('certificates.html', certificates=Certificate.query.all())
 
 
 @bp.route('/<certificate_id>', methods=['GET'])
 def certificate(certificate_id):
-    return render_template('certificates/certificate.html', certificate=Certificate.query.get(certificate_id))
+    return render_template('certificate.html', certificate=Certificate.query.get(certificate_id))
 
 @bp.route('/new_certificate', methods=['POST'])
 def new_certificate():
@@ -34,4 +34,4 @@ def new_certificate():
 def delete(id):
     certificate = Certificate.query.get(id)
     certificate.delete()
-    return render_template('certificates/index.html', certificates=Certificate.query.all())
+    return render_template('certificates.html', certificates=Certificate.query.all())

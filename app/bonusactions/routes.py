@@ -13,22 +13,22 @@ from flask_login import login_required
 
 
 @bp.route('/')
-@login_required
-def all_bonusactions():
+# @login_required
+def all_bonusactions():   
     print(BonusAction.query.all())
     for bonusaction in BonusAction.query.all():
         print(bonusaction.user_id)
-    return render_template('bonusactions/index.html', bonusactions=BonusAction.query.all())
+    return render_template('bonusactions.html', bonusactions=BonusAction.query.all())
 
 
 @bp.route('/<int:bonusaction_id>')
-@login_required
+# @login_required
 def bonusaction(bonusaction_id):
-    return render_template('bonusactions/bonusaction.html', bonusaction=BonusAction.query.get_or_404(bonusaction_id))
+    return render_template('bonusaction.html', bonusaction=BonusAction.query.get_or_404(bonusaction_id))
 
 
 @bp.route('/new_bonusaction', methods=['GET', 'POST'])
-@login_required
+# @login_required
 def new_bonusaction():
     form = NewBonusActionForm()
     if form.validate_on_submit():
@@ -43,9 +43,9 @@ def new_bonusaction():
             )
         db.session.add(bonusaction)
         db.session.commit()
-        return render_template('bonusactions/index.html', bonusactions=BonusAction.query.all())
+        return render_template('bonusactions.html', bonusactions=BonusAction.query.all())
         
-    return render_template('bonusactions/new_bonusaction.html', form=form)
+    return render_template('new_bonusaction.html', form=form)
 
 @bp.route('/get_bonus', methods=['POST'])
 def get_bonus():
@@ -70,4 +70,4 @@ def get_bonus():
 def delete(id):
     bonusaction = BonusAction.get(id)
     bonusaction.delete()
-    return render_template('bonusactions/index.html', bonusactions=BonusAction.query.all())
+    return render_template('bonusactions.html', bonusactions=BonusAction.query.all())

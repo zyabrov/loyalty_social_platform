@@ -13,20 +13,20 @@ from app.extensions import requests
 base_dir = 'http://localhost:5000'
 
 @bp.route('/')
-@login_required
+# @login_required
 def all_rewardactions():
     print(RewardAction.query.all())        
-    return render_template('rewardactions/index.html', rewardactions=RewardAction.query.all())
+    return render_template('rewardactions.html', rewardactions=RewardAction.query.all())
 
 
 @bp.route('/<int:rewardaction_id>')
-@login_required
+# @login_required
 def re(rewardaction_id):
-    return render_template('rewardactions/rewardaction.html', rewardactions=RewardAction.query.get_or_404(rewardaction_id))
+    return render_template('rewardaction.html', rewardactions=RewardAction.query.get_or_404(rewardaction_id))
 
 
 @bp.route('/new_rewardaction', methods=['GET', 'POST'])
-@login_required
+# @login_required
 def new_rewardaction():
     form = NewRewardActionForm()
 
@@ -40,9 +40,9 @@ def new_rewardaction():
             )
         db.session.add(rewardaction)
         db.session.commit()
-        return render_template('rewardactions/index.html', rewardactions=RewardAction.query.all())
+        return render_template('rewardactions.html', rewardactions=RewardAction.query.all())
         
-    return render_template('rewardactions/new_rewardaction.html', form=form)
+    return render_template('new_rewardaction.html', form=form)
 
 @bp.route('/get_reward', methods=['POST'])
 def get_reward():
@@ -86,4 +86,4 @@ def get_reward():
 def delete(id):
     rewardaction = RewardAction.get(id)
     rewardaction.delete()
-    return render_template('rewardactions/index.html', rewardactions=RewardAction.query.all())
+    return render_template('rewardactions.html', rewardactions=RewardAction.query.all())

@@ -43,7 +43,7 @@ class Company(db.Model):
     rewards = db.relationship('Reward', backref='company', lazy='dynamic')
     certificates = db.relationship('Certificate', backref='company', lazy='dynamic')
     bonusactions = db.relationship('BonusAction', backref='company', lazy='dynamic')
-    
+    rewardactions = db.relationship('RewardAction', backref='company', lazy='dynamic')
     locations = db.relationship('Location', secondary='company_location', backref='companies')
     users = db.relationship('User', secondary='company_user', backref='companies')
 
@@ -57,6 +57,9 @@ class Company(db.Model):
     def get(company_id):
         return Company.query.get(company_id)
     
+
+    def get_users(self):
+        return self.users
 
     class Location(db.Model):
         id = db.Column(db.Integer, primary_key=True)

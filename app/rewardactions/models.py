@@ -5,7 +5,7 @@ class RewardAction(db.Model):
     name = db.Column(db.String(255), unique=True, nullable=False)
     date_created = db.Column(db.DateTime)
     date_modified = db.Column(db.DateTime)
-    
+    company_id = db.Column(db.Integer, db.ForeignKey('company.id'), nullable=False)
     certificate_id = db.Column(db.Integer, db.ForeignKey('certificate.id'), nullable=False)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
     reward_id = db.Column(db.Integer, db.ForeignKey('reward.id'), nullable=False)

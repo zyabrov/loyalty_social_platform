@@ -8,7 +8,7 @@ from app.bonuses.forms import NewBonusForm
 
 @bp.route('/', methods=['GET'])
 def all_bonuses():
-    return render_template('index.html', bonuses=Bonus.query.all())
+    return render_template('bonuses.html', bonuses=Bonus.query.all())
 
 
 @bp.route('/<bonus_id>', methods=['GET'])
@@ -30,7 +30,7 @@ def new_bonus():
         )
         db.session.add(bonus)
         db.session.commit()
-        return render_template('bonuses/index.html', bonuses=Bonus.query.all())
+        return render_template('bonuses/bonuses.html', bonuses=Bonus.query.all())
     
     return render_template('bonuses/new_bonus.html', form=form)
 
@@ -40,7 +40,7 @@ def delete(id):
     bonus = Bonus.query.get(id)
     db.session.delete(bonus)
     db.session.commit()
-    return render_template('bonuses/index.html', bonuses=Bonus.query.all())
+    return render_template('bonuses/bonuses.html', bonuses=Bonus.query.all())
 
 
 @bp.route('/basebonus_selected', methods=['POST'])
