@@ -3,13 +3,18 @@ from app.main import bp
 from app import db
 from app.auth.forms import LoginForm
 from app.auth.forms import SignUpForm
-from app.users.models import User
-from flask_login import login_required, login_user
+from flask_login import current_user, login_required, login_user
 
 
 @bp.route('/', methods=['GET'])
+@login_required
 def index():
-    return render_template('index.html')
+    if current_user.role == 'admin':
+        return render_template('dashboard.html', user=current_user)
+    
+    elif current_user.role == 'user':
+        return render_template('index.html', user=current_user)
+  
 
 @bp.route('/create_tables')
 def create_tables():
@@ -25,10 +30,11 @@ def new_tables():
 
 @bp.route('/login', methods=['GET', 'POST'])
 def login():
-
+   
     form = LoginForm()
 
     if form.validate_on_submit():
+        from app.users.models import User
         print('\n\n--------------\n')
         print('user:', User.query.filter_by(username=form.username.data).first())
         
@@ -53,6 +59,7 @@ def signup():
     form = SignUpForm()
 
     if form.validate_on_submit():
+        from app.users.models import User
         user = User(username=form.username.data, email=form.email.data)
         user.set_password(form.password.data)
         db.session.add(user)

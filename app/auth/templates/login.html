@@ -4,7 +4,9 @@
 
 <h1>Login Page</h1>
 
-{% include 'forms/login_form.html' %}
+{% include 'login_form.html' %}
+
+<div class="button"><a href="/auth/sign_up">Sign Up</a></div>
 
 {% if error %}
 <p class="error"><strong>Error:</strong> {{ error }}</p>

@@ -4,29 +4,22 @@ from app import db
 from app.users.models import User
 from app.forms import NewUserForm
 from datetime import datetime
+from flask_login import login_required, current_user
 
 
 @bp.route('/', methods=['GET'])
+@login_required
 def all_users():
+    user = current_user
+    print('user: ', user)
+
     return render_template('users.html', users=User.query.all())
+
+@bp.route('/', methods=['GET', 'POST'])
+
 
 
 @bp.route('/<int:user_id>')
 def user(user_id):
     return render_template('user.html', user=User.query.get(user_id))
 
-@bp.route('/new_user', methods=['GET', 'POST'])
-def new_user():
-    form = NewUserForm()
-
-    if form.validate_on_submit():
-        user = User(
-            username=form.username.data,
-            phone = form.phone.data,
-            registered = datetime(),
-        )
-        db.session.add(user)
-        db.session.commit()
-        return render_template('index.html', users=User.query.all())
-    
-    return render_template('new_user.html', form=form)
