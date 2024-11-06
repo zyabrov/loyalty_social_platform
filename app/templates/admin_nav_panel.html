@@ -1,0 +1,44 @@
+{% set shop = admin.current_shop %}
+<div class="sidebar">
+    {% if admin.shops %}
+    <div class="current-shop">
+            <div class="shop-logo">
+                <img src="/static/uploads/shops/{{ shop.instagram_username }}/logo.jpg" alt="shop Logo">
+            </div>
+        <div class="shop-name">
+            <button class="dropdown-toggle" type="button" id="shop-dropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <h6>{{ shop.name }}</h6><span class="caret"></span>
+            </button>
+            <ul class="dropdown-menu" aria-labelledby="shop-dropdown">
+                {% for shop in admin.shops %}
+                    <li><a href="{{ url_for('shops.shop', shop_id=shop.id) }}">{{ shop.name }}</a></li>
+                {% endfor %}
+                <li><a href="{{ url_for('shops.new_shop', admin_id=admin.id) }}">Add New</a></li>
+            </ul>
+        </div>
+    </div>
+    {% endif %}
+    <ul class="nav flex-column">
+        <li class="nav-item">
+            <a class="nav-link active" href="{{ url_for('dashboard.dashboard', shop_id=shop.id) }}">Dashboard</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="{{ url_for('tasks.tasks')}}">My Tasks</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="#">Rewards</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="#">Settings</a>
+        </li>
+    </ul>
+    <div class="bottom-menu">
+        <ul>
+            <li><a href="{{ url_for('admins.edit_profile') }}">My Profile</a></li>
+            <li><a href="{{ url_for('shops.shops') }}">My Shops</a></li>
+            <li><a href="#">My Wallet</a></li>
+            <li><a href="{{ url_for('main.help') }}">Help</a></li>
+            <li><a href="{{ url_for('users.delete') }}">Delete Account</a></li>
+        </ul>
+    </div>
+</div>

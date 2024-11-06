@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="card task-card">
+    {% if usertask %}
+    {% include 'usertask.html' %}
+    {% endif %}
+    
+</div>
+
+{% endblock %}

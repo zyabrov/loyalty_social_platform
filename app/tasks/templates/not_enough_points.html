@@ -1,0 +1,7 @@
+<div class="pop-up pop-up-center" id="pop-up">
+    <div class="badge">
+        <p>Not enough points</p>
+        <p>Do you want to buy more points?</p>
+        <button type="button" class="btn btn-primary" hx-get="users/add_points" hx-target="#pop-up" hx-trigger="click" hx-swap-oob="true" hx-swap="outerHTML">Buy Points</button>
+        <button type="button" class="btn btn-danger" hx-get="/close_form" hx-target="#pop-up" hx-swap="outerHTML">Close</button>
+    </div>

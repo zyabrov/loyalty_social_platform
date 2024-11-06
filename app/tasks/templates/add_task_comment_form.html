@@ -1,0 +1,93 @@
+<!-- Add task form -->
+{% set basetask_id = form.task_selected.data|int %}
+<form action="{{ url_for('tasks.add_task')}}" method="POST" id="add_task_form">
+    {{ form.csrf_token }}
+    {{ form.hidden_tag() }}
+    
+    <div class="form-container">
+        <h3>New Task: {{ form.task_selected_name.data }}</h3>                
+            
+        <h4>Select posts</h4>
+            
+        <div class="form-group">
+            
+            <div id="posts" class="row">
+                {% if form.posts %}
+                    {% for post in form.posts %}
+                    {{ post.hidden_tag() }}
+                        <div class="post-card">
+                            <img src="/static/uploads/shops/{{ shop.instagram_username }}/posts/{{ post.shortcode.data }}.jpg" alt="{{ post.shortcode}}"> {{ post.selected }}
+                        </div>
+                    {% endfor %}
+                {% endif %}
+            </div>
+            <button type="button" class="btn btn-primary" hx-post="{{ url_for('tasks.get_posts')}}" hx-target="#posts">Update posts</button>
+        </div>
+
+        <h4>Setting conditions</h4>
+        <div class="form-group">
+            {{ form.onetime.label }}
+            {{ form.onetime }}
+        </div>
+
+        {% if form.onetime.data and form.onetime.data == 'yes' %}
+            <div class="form-group">
+                {{ form.repeat_delay.label }}
+                {{ form.repeat_delay }}
+            </div>
+
+            <div class="form-group">
+                {{ form.max_repeats.label }}
+                {{ form.max_repeats}}
+            </div>
+        {% endif %}
+
+        <div class="form-group">
+            {{ form.only_followers.label}} {{ form.only_followers }}
+        </div>
+
+        <div class="form-group">
+            {{ form.five_words.label}} {{ form.five_words }}
+        </div>
+
+        {% if form.checking_type.data %}
+            <div class="hidden">{{ form.checking_type }}</div>
+            {% if form.checking_type.data == 'AI check' %}
+            <div class="form-group">
+                <label for="ai_conditions">{{ form.ai_conditions.label }}</label>
+                {{ form.ai_conditions }}
+            </div>
+            {% elif form.checking_type.data == 'Manual check' %}
+            <div class="form-group">
+                {{form.description.label}} {{form.description}}
+            </div>
+            {% endif %}
+        {% endif %}
+
+        <!-- Points input -->
+        <h4>Points and Rewards</h4>
+        <div class="form-group">
+            <label for="points_input">{{ form.points_input.label }}</label>
+            {{ form.points_input(class="form-control") }}
+        </div>
+        <!-- Rewards input -->
+        <div class="form-group">
+            <label for="rewards_input">{{ form.rewards_input.label }}</label>
+            
+            {{ form.rewards_input(class="form-control") }}
+        </div>
+
+
+        <div class="form_buttons flex-row">
+            {{ form.submit(class="btn btn-primary") }}
+        </div>
+
+        {% if form.errors %}
+            {% for error in form.errors %}
+                <span class="text-danger">{{ error }}</span>
+            {% endfor %}
+        {% endif %}
+
+    </div>
+        
+</form>

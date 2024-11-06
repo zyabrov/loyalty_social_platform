@@ -1,0 +1,67 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+{% if user.teleram_id is none %}
+    {% include activate_telegram_bot %}
+    <div class="pop-up pop-up-center" id="pop-up">
+        <div class="form-container">
+            <p>You haven't activated our telegram bot for getting notifications</p>
+            <button type="button" class="btn btn-primary" hx-get="/users/activate_tg_bot" hx-target="#pop-up" hx-trigger="click" hx-swap="innerHTML">Activate Bot</button>
+        </div>
+    </div>
+{% else %}
+    {% if user.instagram_page is none %}
+    <div class="pop-up pop-up-center" id="pop-up">
+        <div class="form-container">
+            <p>You haven't added your instagram profile</p>
+            <button type="button" class="btn btn-primary" hx-get="/users/add_instagram_username" hx-target="#pop-up" hx-trigger="click" hx-swap="innerHTML">Add Instagram profile</button>
+        </div>
+    </div>
+    {% endif %}
+{% endif %}
+
+<h1>All active tasks</h1>
+
+<table class="table" id="tasks">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Reward</th>
+            <th>Price</th>
+            <th>Target</th>
+            <th>Shop</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for task in tasks %}
+        <tr>
+            <td><a href="{{ url_for('tasks.task_card', task_id=task.id) }}">{{ task.name }}</a></td>
+            <td>{{ task.points }}</td>
+            <td>{{ task.price }}</td>
+            <td>
+                {% if task.posts %}
+                    {% for post in task.posts %}
+                        <div class="post_img">
+                            <a href="https://instagram.com/p/{{ post.shortcode }}" target="_blank" rel="noopener"><img src="{{post.saved_media_url}}" alt='{{ post.shortcode }}'></a>
+                        </div>
+                    {% endfor %}
+                {% endif %}
+            </td>
+            <td>
+                <a href="{{ url_for('shops.shop', shop_id=task.shop.id) }}">{{ task.shop.name }}</a>
+            </td>
+            <td>
+                {% if user.points >= task.price %}
+                    <a href="{{ url_for('tasks.start_task', task_id=task.id) }}" class="btn btn-outline-success">Start ({{ task.price }} points)</a>
+                {% else %}
+                    <div class="btn btn-outline-secondary disabled">Start ({{ task.price }} points)</div>
+                {% endif %}
+                <a href="{{ url_for('tasks.task_card', task_id=task.id) }}" class="btn btn-outline-info">Details</a>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

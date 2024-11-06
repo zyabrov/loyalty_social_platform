@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h2>Task Usertask</h2>
+<h3>Usertask of the task: <a href="{{ url_for('tasks.task_card', task_id=task.id) }}">{{ task.name }}</a></h3>
+<div class="card-body">
+    
+    <h5 class="card-title">{{ task.name }}</h5>
+    {% if task.description != None %}<p class="card-text">{{ task.description }}</p>{% endif %}
+    <p>Points: {{ task.points }}</p>
+    <p>Status: {{ task.status }}</p>
+    <h4>Target:</h4>
+    {% for post in task.posts %}
+        <div class="post_img">
+            <a href="https://instagram.com/p/{{ post.shortcode }}" target="_blank" rel="noopener"><img src="{{ post.saved_media_url }}" alt='{{ post.shortcode }}'></a>
+        </div>
+    {% endfor %}
+    <hr>
+    <h4>Reward conditions:</h4>
+    {% for condition in task.conditions %}
+        <ul>
+            <li>{{ condition.name }}</li>
+        </ul>
+    {% endfor %}
+    <hr>
+    <h4>Shop info:</h4>
+    <img src="{{ task.shop.logo }}" alt="{{ task.shop.name }}">
+    <p>
+        <a href="{{ url_for('shops.shop', shop_id=task.shop.id) }}">{{ task.shop.name }}</a></p>
+    <p>{{ task.shop.description }}</p>
+    <p>Instagram: @{{ task.shop.instagram_username }}</p>
+    <hr>
+    
+        {% if user %}
+            <div class="actions">
+
+                {% if usertask.status == 'Started' or usertask.status == 'Rejected' %}
+                    <button type="button" class="btn btn-success" hx-get="{{ url_for('tasks.finish_task', usertask_id=usertask.id) }}" hx-target="body" hx-trigger="click">Finish</button>
+                    <button type="button" class="btn btn-danger" hx-get="{{ url_for('tasks.refuse', usertask_id=usertask.id) }}" hx-target="body" hx-trigger="click">Refuse</button>
+                {% elif usertask.status == 'Submitted' %}
+                    <button type="button" class="btn btn-primary" hx-get="{{ url_for('tasks.claim_reward', usertask_id=usertask.id) }}" hx-target="#tasks-container" hx-trigger="click" hx-swap="innerHTML">Claim reward</button>
+                {% endif %}
+                
+            </div>
+        {% elif admin %}
+        <div class="actions">
+            <!-- button for accepting or rejecting the task -->
+            {% if usertask.status.name == 'Waiting for admin submission' %}
+            <button type="button" class="btn btn-success" hx-get="{{ url_for('tasks.accept', usertask_id=usertask.id) }}" hx-target="body" hx-trigger="click">Accept</button>
+            <button type="button" class="btn btn-danger" hx-get="{{ url_for('tasks.reject', usertask_id=usertask.id) }}" hx-target="body" hx-trigger="click">Reject</button>
+            {% endif %}
+        </div>
+        {% endif %}
+</div>

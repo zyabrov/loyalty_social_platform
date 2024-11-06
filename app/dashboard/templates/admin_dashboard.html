@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h1>Admin Dashboard</h1>
+<hr>
+{% if admin.current_shop %}
+    {% set shop = admin.current_shop %}
+    <h3>Tasks:</h3>
+    <div class="container" id="tasks-info">
+        {% if shop.tasks %}
+            
+            {% set active_tasks = shop.tasks | selectattr('status', 'eq', 'Active') %}
+        {% endif %}
+        <p>Active tasks: {{ active_tasks|list|length }}</p>
+        <a href="{{ url_for('shops.add_task') }}" class="btn btn-primary">Add new Task</a>
+
+    </div>
+{% else %}
+    <div class="pop-up pop-up-center" id="pop-up">
+        <div class="form-container">
+
+            <p>You don't have any Shop. Create a new Shop for using as Admin</p>
+            <button type="button" class="btn btn-primary" hx-get="/shops/add_instagram_profile" hx-target="#pop-up" hx-trigger="click" hx-swap="innerHTML">Create Shop</button>
+        </div>
+    </div>
+{% endif %}
+<hr>
+<h3>Points:</h3>
+<h5>Available: <span>{{admin.user.points}}</span></h5>
+<h5>Blocked for rewards: <span>{{admin.blocked_points }}</span></h5>
+
+<button type="button" class="btn btn-primary" hx-get="/users/add_points" hx-trigger="click" hx-swap-oob="true" hx-swap="outerHTML" hx-target="#pop-up">Get more points</button>
+
+{% endblock %}

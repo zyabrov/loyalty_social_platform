@@ -1,0 +1,132 @@
+
+<!-- Display flash messages -->
+{% with messages = get_flashed_messages() %}
+    {% if messages %}
+        <ul class="flashes">
+            {% for message in messages %}
+            <li>{{ message }}</li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+{% endwith %}
+
+
+<!-- Add product form -->
+<form method="POST" enctype="multipart/form-data">
+    {{ form.csrf_token }}
+    {{ form.hidden_tag() }}
+
+    <!-- Product name -->
+    <div class="form-group">
+        {{ form.name.label }}
+        {{ form.name(class="form-control") }}
+        {% if form.name.errors %}
+            {% for error in form.name.errors %}
+                <span class="text-danger">{{ error }}</span>
+            {% endfor %}
+        {% endif %}
+    </div>
+
+    <!-- Product category-->
+    <div class="form-group">
+        {{ form.category.label }}
+        {{ form.category(class="form-control") }}
+        {% if form.category.errors %}
+            {% for error in form.category.errors %}
+                <span class="text-danger">{{ error }}</span>
+            {% endfor %}
+        {% endif %}
+    </div>
+
+    <!-- Product subcategory -->
+    <div class="form-group">
+        {{ form.subcategory.label }}
+        {{ form.subcategory(class="form-control") }}
+        {% if form.subcategory.errors %}
+            {% for error in form.subcategory.errors %}
+                <span class="text-danger">{{ error }}</span>
+            {% endfor %}
+        {% endif %}
+
+    <!-- Product points cost -->
+    <div class="form-group">
+        {{ form.points_cost.label }}
+        {{ form.points_cost(class="form-control") }}
+        {% if form.points_cost.errors %}
+            {% for error in form.points_cost.errors %}
+                <span class="text-danger">{{ error }}</span>
+            {% endfor %}
+        {% endif %}
+    </div>
+
+    <!-- Product description -->
+    <div class="form-group">
+        {{ form.description.label }}
+        {{ form.description(class="form-control") }}
+        {% if form.description.errors %}
+            {% for error in form.description.errors %}
+                <span class="text-danger">{{ error }}</span>
+            {% endfor %}
+        {% endif %}
+    </div>
+
+    <!-- Product main image -->
+    <div class="form-group">
+        {{ form.main_image.label }}
+        {{ form.main_image(class="form-control") }}
+        {% if form.main_image.errors %}
+            {% for error in form.main_image.errors %}
+                <span class="text-danger">{{ error }}</span>
+            {% endfor %}
+        {% endif %}
+    </div>
+
+    <!-- Product type -->
+    <div class="form-group">
+        {{ form.type.label }}
+        {{ form.type(class="form-control") }}
+        {% if form.type.errors %}
+            {% for error in form.type.errors %}
+                <span class="text-danger">{{ error }}</span>
+            {% endfor %}
+        {% endif %}
+    </div>
+
+    <!-- Product standart cost -->
+    <div class="form-group">
+        {{ form.standart_cost.label }}
+        {{ form.standart_cost(class="form-control") }} 
+        {{ form.currency.label }} 
+        {{ form.currency(class="form-control") }}
+        {% if form.standart_cost.errors %}
+            {% for error in form.standart_cost.errors %}
+                <span class="text-danger">{{ error }}</span>
+            {% endfor %}
+        {% endif %}
+    </div>
+
+    <!-- Product available quantity -->
+    <div class="form-group">
+        {{ form.available_quantity.label }}
+        {{ form.available_quantity(class="form-control") }}
+        {% if form.available_quantity.errors %}
+            {% for error in form.available_quantity.errors %}
+                <span class="text-danger">{{ error }}</span>
+            {% endfor %}
+        {% endif %}
+    </div>
+
+    <!-- Product end date -->
+    <div class="form-group">
+        {{ form.end_date.label }}
+        {{ form.end_date(class="form-control") }}
+        {% if form.end_date.errors %}
+            {% for error in form.end_date.errors %}
+                <span class="text-danger">{{ error }}</span>
+            {% endfor %}
+        {% endif %}
+    </div>
+
+    <!-- Submit button -->
+    {{ form.submit(class="btn btn-primary") }}
+</form>

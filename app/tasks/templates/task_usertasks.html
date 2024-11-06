@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h2 class="text-center">Task Usertasks</h2>
+<h3>Task: <a href="{{ url_for('tasks.task_card', task_id=task.id) }}">{{ task.name }}</a></h3>
+<table id="usertasks">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Status</th>
+            <th>User</th>
+            <th>Instagram Profile</th>
+            <th>Comment</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+    {% for usertask in usertasks %}
+        <tr>
+            <td>{{ usertask.id }}</td>
+            <td>{{ usertask.status }}</td>
+            <td><a href="{{ url_for('users.user', user_id=usertask.user.id) }}">{{ usertask.user.name }}</td>
+            <td><a href="{{ 'https://instagram.com/' + usertask.user.instagram_page.username }}">{{ usertask.user.instagram_page.username }}</td>
+            <td>{{ usertask.comment.text }}</td>
+            <td>
+                {% if usertask.status == 'Waiting for admin submission' %}
+                    <a href="{{ url_for('tasks.submit_task', usertask_id=usertask.id) }}" class="btn btn-outline-success">Accept</a>
+                    <button type="button" class="btn btn-outline-danger" hx-get="{{ url_for('tasks.reject', usertask_id=usertask.id) }}" hx-target="#pop-up" hx-trigger="click">Reject</button>
+                {% endif %}
+            </td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

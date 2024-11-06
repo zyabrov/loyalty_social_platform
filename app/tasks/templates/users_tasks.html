@@ -1,0 +1,155 @@
+{% extends 'base.html' %}
+
+{% block content %}
+{% set user = current_user %}
+
+{% if user.teleram_id is none %}
+    <div class="pop-up pop-up-center" id="pop-up">
+        <div class="form-container">
+            <p>You haven't activated our telegram bot for getting notifications</p>
+            <button type="button" class="btn btn-primary" hx-get="/users/activate_tg_bot" hx-target="#pop-up" hx-trigger="click" hx-swap="innerHTML">Activate Bot</button>
+        </div>
+    </div>
+{% else %}
+    {% if user.instagram_page is none %}
+    <div class="pop-up pop-up-center" id="pop-up">
+        <div class="form-container">
+            <p>You haven't added your instagram profile</p>
+            <button type="button" class="btn btn-primary" hx-get="/users/add_instagram_username" hx-target="#pop-up" hx-trigger="click" hx-swap="innerHTML">Add Instagram profile</button>
+        </div>
+    </div>
+    {% endif %}
+{% endif %}
+
+<!-- My Tasks section -->
+<div class="container">
+  <div class="row">
+    <div class="col-md-12">
+      <h2>My Tasks</h2>
+      <hr>
+      <div class="task-stats">
+        <div class="stat-block">
+          <h3>Points Total</h3>
+          <p>{{ user.points }}</p>
+        </div>
+        <div class="stat-block">
+          <h3>Not finished tasks</h3>
+          {% set not_finished = (tasks | selectattr('status', 'eq', 'Started') | list) + (tasks | selectattr('status', 'eq', 'Rejected') | list) %}
+          <p>{{ not_finished | length }}</p>
+        </div>
+        <div class="stat-block">
+          <h3>Points to be Received</h3>
+          <p>{{ user.blocked_points }}</p>
+        </div>
+        <div class="stat-block">
+          <h3>Finished tasks</h3>
+          {% set finished = (tasks | selectattr('status', 'eq', 'Submitted') | list) + (tasks | selectattr('status', 'eq', 'Claimed') | list) %}
+          <p>{{ finished | length }}</p>
+        </div>
+        <div class="stat-block">
+          <h3>Not claimed rewards</h3>
+          <p>{{ user.usertasks | selectattr('status', 'eq', 'Submitted') | list | length }}</p>
+        </div>
+      </div>
+      <hr>
+    </div>
+  </div>
+</div>
+
+<!-- Kanban board -->
+<div class="kanban-board">
+  <div class="row">
+    <div class="col-md-3">
+      <div class="kanban-column bg-light-green">
+        <h3>Active ({{ tasks | selectattr('status', 'eq', 'Started') | list | length }})</h3>
+        {% for task in tasks | selectattr('status', 'eq', 'Started') %}
+          <div class="kanban-card">
+            <a href="{{ url_for('tasks.task_card', task_id=task.task.id) }}"><h5>{{ task.task.name }}</h5></a>
+            <p>Reward: {{ task.task.points }} points</p>
+            <div>
+              Target:
+              {% for post in task.task.posts %}
+                <a href="https://instagram.com/p/{{ post.shortcode }}" target="_blank" rel="noopener"><img src="{{post.saved_media_url}}" alt='{{ post.shortcode }}'></a>
+              {% endfor %}
+            </div>
+            <div>
+              <img src="{{ task.task.shop.logo_url }}" alt="{{ task.task.shop.name }}"> 
+              <a href="{{ url_for('shops.shop', shop_id=task.task.shop.id) }}">{{ task.task.shop.name }}</a>
+            </div>
+
+            <button class="btn btn-sm btn-success" hx-get="{{ url_for('tasks.finish_task', usertask_id=task.id) }}" hx-target='body'>Finish</button>
+            <button class="btn btn-sm btn-danger" hx-get="{{ url_for('tasks.refuse', usertask_id=task.id) }}" hx-target='body'>Cancel</button>
+          </div>
+        {% endfor %}
+      </div>
+    </div>
+    <div class="col-md-3">
+      <div class="kanban-column bg-light">
+        <h3>On Review ({{ tasks | selectattr('status', 'eq', 'Waiting for admin submission') | list | length }})</h3>
+        {% for task in tasks | selectattr('status', 'eq', 'Waiting for admin submission') %}
+          <div class="kanban-card">
+            <a href="{{ url_for('tasks.task_card', task_id=task.task.id) }}"><h5>{{ task.task.name }}</h5></a>
+            <p>Reward:{{ task.task.points }} points</p>
+            
+            <div>
+              <img src="{{ task.task.shop.logo_url }}" alt="{{ task.task.shop.name }}"> 
+              <a href="{{ url_for('shops.shop', shop_id=task.task.shop.id) }}">{{ task.task.shop.name }}</a>
+            </div>
+
+          </div>
+        {% endfor %}
+      </div>
+    </div>
+    <div class="col-md-3">
+      {% set completed_tasks = (tasks | selectattr('status', 'eq', 'Submitted') | list) + (tasks | selectattr('status', 'eq', 'Claimed') | list) %}
+      <div class="kanban-column bg-secondary">
+      <h3>Completed ({{ completed_tasks | length }})</h3>
+      {% if completed_tasks %}
+        {% for task in completed_tasks %}
+
+          <div class="kanban-card">
+            <a href="{{ url_for('tasks.task_card', task_id=task.task.id) }}"><h5>{{ task.task.name }}</h5></a>
+            <p>Reward: {{ task.task.points }} points</p>
+            <div>
+              <img src="{{ task.task.shop.logo_url }}" alt="{{ task.task.shop.name }}"> 
+              <a href="{{ url_for('shops.shop', shop_id=task.task.shop.id) }}">{{ task.task.shop.name }}</a>
+            </div>
+  
+            {% if task.status == "Submitted" %}
+              <button type="button"class="btn btn-sm btn-success" hx-get="{{ url_for('tasks.claim_reward', usertask_id=task.id) }}" hx-target="body">Claim Reward</button>
+            {% endif %}
+          </div>
+        {% endfor %}
+      {% endif %}
+      </div>
+    </div>
+    <div class="col-md-3">
+      <div class="kanban-column bg-danger">
+      <h3>Rejected ({{ tasks | selectattr('status', 'eq', 'Rejected') | list | length }})</h3>
+        {% for task in tasks | selectattr('status', 'eq', 'Rejected') %}
+          <div class="kanban-card">
+            <h5>{{ task.name }}</h5>
+            <p>Reward: {{ task.task.points }} points</p>
+            <div>
+              Target:
+              {% for post in task.task.posts %}
+                <a href="https://instagram.com/p/{{ post.shortcode }}" target="_blank" rel="noopener"><img src="{{post.image_url}}" alt='{{ post.shortcode }}'></a>
+              {% endfor %}
+            </div>    
+            <div>
+              <p class="text-danger">Reason: {{ task.rejected_reason}}</p>
+            </div>        
+            <div>
+              <img src="{{ task.task.shop.logo_url }}" alt="{{ task.task.shop.name }}"> 
+              <a href="{{ url_for('shops.shop', shop_id=task.task.shop.id) }}">{{ task.task.shop.name }}</a>
+            </div>
+
+            <button class="btn btn-sm btn-success" hx-get="{{ url_for('tasks.finish_task', usertask_id=task.id) }}" hx-target='body'>Finish</button>
+            <button class="btn btn-sm btn-danger" hx-get="{{ url_for('tasks.refuse', usertask_id=task.id) }}" hx-target='body'>Refuse</button>
+          </div>
+        {% endfor %}
+      </div>
+    </div>
+    </div>
+</div>
+{% endblock %}

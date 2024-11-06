@@ -1,0 +1,81 @@
+<!-- Display flash messages -->
+{% with messages = get_flashed_messages() %}
+    {% if messages %}
+        <ul class="flashes">
+            {% for message in messages %}
+            <li>{{ message }}</li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+{% endwith %}
+
+
+{% if form.errors %}
+    {% for error in form.errors %}
+        <span class="text-danger">{{ error }}</span>
+    {% endfor %}
+{% endif %}
+
+
+<!-- Add shop form -->
+<form method="POST" enctype="multipart/form-data" action="{{ url_for('shops.new_shop') }}" id="new_shop_form">
+    {{ form.csrf_token }}
+    {{ form.hidden_tag() }}
+
+    <!-- Shop name -->
+    <div class="form-group">
+        {{ form.name.label }}
+        {{ form.name(class="form-control") }}
+        {% if form.name.errors %}
+            {% for error in form.name.errors %}
+                <span class="text-danger">{{ error }}</span>
+            {% endfor %}
+        {% endif %}
+    </div>
+
+    <!-- Shop description -->
+    <div class="form-group">
+        {{ form.description.label }}
+        {{ form.description(class="form-control") }}
+        {% if form.description.errors %}
+            {% for error in form.description.errors %}
+                <span class="text-danger">{{ error }}</span>
+            {% endfor %}
+        {% endif %}
+    </div>
+
+    <!-- Shop logo -->
+    <div class="form-group">
+        {{ form.logo.label }}
+        {% if form.logo_url.data %}
+            <img src="/static/uploads/shops/{{ form.instagram_username.data }}/logo.jpg" alt="Shop logo">
+        {% else %}
+            {{form.logo }}
+        {% endif %}
+    </div>
+
+    <!-- Shop category -->
+    <div class ="form-group">
+        {{ form.category.label }}{{ form.category }}
+        {{ form.subcategories.label }}{{ form.subcategories }}
+
+    <!-- Shop contacts -->
+    <div class="form-group flex-column">
+        {{ form.phone.label }}{{ form.phone }}
+        {{ form.website_url.label }} {{ form.website_url }}
+    </div>
+
+
+    <!-- Shop address -->
+    <div class="form-group flex-column">
+        {{ form.country.label }} {{ form.country }}
+        {{ form.region.label }} {{ form.region }}
+        {{ form.city.label }} {{ form.city }}
+        {{ form.address.label }} {{ form.address }}
+    </div>
+
+
+    <!-- Submit button -->
+    {{ form.submit(class="btn btn-primary") }}
+
+</form>

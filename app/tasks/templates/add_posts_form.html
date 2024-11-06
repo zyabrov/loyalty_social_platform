@@ -1,0 +1,19 @@
+<div id="posts-pop-up" class="pop-up">
+    <form id="add_post_form" action="{{ url_for('tasks.add_task')}}" method="POST" class="pop-up-form">
+        {{ form.csrf_token }}
+        {{ form.hidden_tag() }}
+        <div class="form-container">
+            <div class="form-group row">
+                {% for post in form.posts %}
+                <div class="post-card">
+                    <img src="{{ post.image_url.data}}" alt="{{ post.image_url.data}}"> {{ post.selected()}}
+                </div>
+                {% endfor %}
+            </div>
+            <div class="form-group row">
+                <button type="button" class="btn btn-primary" hx-post="/tasks/add_task" hx-target="#pop-up">Add selected</button>
+                <button type="button" class="btn btn-danger" hx-get="/close_form" hx-target="#pop-up" hx-swap="outerHTML">Close</button>
+            </div>
+        </div>
+    </form>
+</div>

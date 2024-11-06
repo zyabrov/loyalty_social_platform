@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<h1>User Dashboard</h1>
+
+<div class="container">
+        <h2>Tasks</h2>
+        <p>Uncomplieted tasks:</p>
+        <p>Waiting for review tasks:</p>
+        <hr>
+        <h2>Points</h2>
+        <p>Available points: {{ user.points }}</p>
+    </div>
+</div>
+
+{% if user.teleram_id is none %}
+    <div class="pop-up pop-up-center" id="pop-up">
+        <div class="form-container">
+            <p>You haven't activated our telegram bot for getting notifications</p>
+            <button type="button" class="btn btn-primary" hx-get="/users/activate_tg_bot" hx-target="#pop-up" hx-trigger="click" hx-swap="innerHTML">Activate Bot</button>
+        </div>
+    </div>
+{% else %}
+    {% if user.instagram_page is none %}
+    <div class="pop-up pop-up-center" id="pop-up">
+        <div class="form-container">
+            <p>You haven't added your instagram profile</p>
+            <button type="button" class="btn btn-primary" hx-get="/users/add_instagram_username" hx-target="#pop-up" hx-trigger="click" hx-swap="innerHTML">Add Instagram profile</button>
+        </div>
+    </div>
+    {% endif %}
+{% endif %}
+
+
+{% endblock %}

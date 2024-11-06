@@ -1,0 +1,13 @@
+<p>To get access to the page you need to follow our instagram profile: <a href="https://www.instagram.com/loyaltybots/" target="_blank" rel="noopener noreferrer">@loyaltybots</a></p>
+<form method="post" action="{{ url_for('shops.instagram_submit') }}" hx-target="#pop-up">
+    {{ form.hidden_tag() }}
+    <div class="form-group">
+        {{ form.instagram_username.label }} {{ form.instagram_username }}
+    </div>
+    <div class="form-group">
+        {{ form.submit }}
+    </div>
+    {% if form.error %}
+        <p class="text-danger">{{ form.error }}</p>
+    {% endif %}
+</form>

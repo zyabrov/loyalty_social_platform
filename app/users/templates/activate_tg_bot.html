@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container">
+    <p>Activate telegram bot for getting notifications</p>
+    <!-- <button type="button" class="btn btn-primary" hx-post="{{ url_for('users.activate_tg_bot') }}" hx-target="body">Activate</button> -->
+    <a href="{{ url }}" class="btn btn-primary">Activate</a>
+</div>
+
+{% endblock %}

@@ -1,0 +1,131 @@
+{% extends 'base.html' %}
+
+{% block content %} 
+
+<h3>Мy Tasks</h3>
+
+<div class="container" id="tasks-container">
+    
+    <div class="task-stats">
+        <div class="stat-block">
+          <h3>Tasks Total</h3>
+          <p>{{ tasks | length }}</p>
+        </div>
+        <div class="stat-block">
+          <h3>Active Tasks</h3>
+          <p>{{ tasks | selectattr('status', 'eq', 'Active') | list | length }}</p>
+        </div>
+        <div class="stat-block">
+          <h3>Inactive Tasks</h3>
+          <p>{{ tasks | selectattr('status', 'eq', 'New') | list | length }}</p>
+        </div>
+        <div class="stat-block">
+          <h3>Completed Tasks</h3>
+          <p>{{ tasks | selectattr('status', 'eq', 'Finished') | list | length }}</p>
+        </div>
+        <div class="stat-block">
+          <h3>Waiting for submission</h3>
+          <p></p>
+        </div>
+        <div class="stat-block">
+          <h3>Finished Total</h3>
+          <p></p>
+        </div>
+        <div class="stat-block">
+          <h3>Finished Today / This month</h3>
+          <p></p>
+        </div>
+      </div>
+
+      <a href="{{ url_for('shops.add_task') }}" class="btn btn-primary">Add new task</a>
+        {% if tasks %}
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col">Name</th>
+                    <th scope="col">Status</th>
+                    <th scope="col">Points</th>
+                    <th scope="col">Max rewards</th>
+                    <th scope="col">Total points</th>
+                    <th scope="col">Conditions</th>
+                    <th scope="col">Checking type</th>
+                    <th scope="col">Target</th>
+                    <th scope="col">Description</th>
+                    <th scope="col">Usertasks Started</th>
+                    <th scope="col">Usertasks Finished</th>
+                    <th scope="col">Usertasks Waiting</th>
+                    <th scope="col">% of finished</th>
+                    <th scope="col actions">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for task in tasks %}
+                    {% if task.status == 'Active' %}    
+                        <tr class="bg-light-greens">
+                    {% else %}
+                        <tr>
+                    {% endif %}
+                        <td>
+                            <a href="{{ url_for('tasks.task_card', task_id=task.id) }}">{{ task.name }}</a>
+                            {% if task.status == 'new' %}
+                                <span class="text-danger">Non activated</span>
+                            {% endif %}
+                        </td>
+                        <td>{{ task.status }}</td>
+                        <td>{{ task.points }}</td>
+                        <td>{{ task.max_rewards }}</td>
+                        <td>{{ task.total_points }}</td>
+                        <td>
+                            {% for condition in task.conditions %}
+                                <ul>
+                                    <li>{{ condition.name }}</li>
+                                </ul>
+                            {% endfor %}
+                        </td>
+                        <td>{{ task.checking_type }}</td>
+                        
+                        <td>
+                            {% if task.posts %}
+                                {% for post in task.posts %}
+                                    <div class="post_img">
+                                        <a href="https://instagram.com/p/{{ post.shortcode }}" target="_blank" rel="noopener"><img src="{{post.saved_media_url}}" alt='{{ post.shortcode }}'></a>
+                                    </div>
+                                {% endfor %}
+                            {% endif %}
+                        </td>
+                        <td>
+                            {% if task.checking_type == 'Manual check' %}
+                            {{ task.description }}
+                            {% elif task.checking_type == 'AI check' %}
+                            {{ task.ai_conditions }}
+                            {% endif %}
+                        </td>
+                        <td>{{ task.usertasks | selectattr('status', 'eq', 'Started') | list | length }}</td>
+                        <td>{% set finished = task.usertasks | selectattr('status', 'eq', 'Submitted') | list | length + task.usertasks | selectattr('status', 'eq', 'Claimed') | list | length %}
+                            {{ finished }}</td>
+                        <td>{{ task.usertasks | selectattr('status', 'eq', 'Waiting for admin submission') | list | length }}</td>
+                        <td>{% set percentage = finished * 100 / task.max_rewards %}
+                            {{ percentage }}%
+                        </td>
+                        <td class="actions">
+                            {% if task.usertasks %}
+                                <a class="btn btn-primary" href="{{ url_for('tasks.task_usertasks', task_id=task.id) }}">Usertasks</a>
+                            {% endif %}
+                            {% if task.status == 'Active' %}
+                                <button type="button" class="btn btn-success" hx-get="{{ url_for('tasks.pause', task_id=task.id)}}" hx-target="body">⏸</button>
+                            {% else %}
+                                <button type="button" class="btn btn-success" hx-get="{{ url_for('tasks.activate', task_id=task.id)}}" hx-target="#pop-up" hx-swap="outerHTML" hx-swap-oob="true">▶️</button>
+                            {% endif %}
+                            <button type="button" class="btn btn-secondary" hx-get="{{ url_for('tasks.task_card',task_id=task.id) }}">✏️</button>
+                            <button type="button" class="btn btn-danger" hx-get="{{ url_for('tasks.delete', task_id=task.id)}}" hx-target="body">❌</button>
+
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p>No tasks</p>
+    {% endif %}
+</div>
+{% endblock %}

@@ -1,0 +1,35 @@
+{% block content %}
+
+<h2>Select the comment task</h2>
+<div class="container" id="tasks-container">
+
+    <div class="flex-row">
+        <div class="card task-card">
+            <div class="card-body">
+                <h5 class="card-title">Simple comment task with Auto submission</h5>
+                <p class="card-text">description</p>
+                <p>Minimal reward: 2 Points</p>
+                <button type="button" class="btn btn-primary" hx-get="{{ url_for('tasks.add_task', basetask_id=1, name='Simple comment task with Auto submission') }}" hx-target="#tasks-container" hx-trigger="click" hx-swap="innerHTML">Add</button>
+            </div>
+        </div>
+        <div class="card task-card">
+            <div class="card-body">
+                <h5 class="card-title">Advanced comment task with Manual submission</h5>
+                <p class="card-text">description</p>
+                <p>Minimal reward: 10 Points</p>
+                <button type="button" class="btn btn-primary" hx-get="{{ url_for('tasks.add_task', basetask_id=1, name='Advanced comment task with Manual submission') }}" hx-target="#tasks-container" hx-trigger="click" hx-swap="innerHTML">Add</button>
+            </div>
+        </div>
+        <div class="card task-card">
+            <div class="card-body">
+                <h5 class="card-title">Advanced comment task with AI checking</h5>
+                <p class="card-text">description</p>
+                <p>Minimal reward: 10 Points</p>
+                <button type="button" class="btn btn-primary" hx-get="{{ url_for('tasks.add_task', basetask_id=1, name='Advanced comment task with AI checking') }}" hx-target="#tasks-container" hx-trigger="click" hx-swap="innerHTML">Add</button>
+            </div>
+        </div>
+
+    </div>
+
+</div>
+{% endblock %}

@@ -1,0 +1,17 @@
+<div class="top_nav_bar">
+    <div class="logo">
+        <a href="{{ url_for('dashboard.dashboard') }}">Rational Life</a>
+    </div>
+    {% if admin %}
+        {% set user = admin.user %}
+    {% endif %}
+    {% if user %}
+    <div class="points">
+        <p>Available points: {{ user.points }}</p>
+    </div>
+    <div class="buttons">
+        <button type="button" class="btn btn-outline-secondary" hx-get="{{ url_for('users.notifications') }}" hx-target="body" hx-swap="outerHTML">Notifications ({{ user.notifications|length }})</button>
+        <button type="button" id="#log-out" class="btn btn-outline-secondary" hx-get="/logout" hx-target="body" hx-swap="outerHTML">Logout</button>
+    </div>
+    {% endif %}
+</div>

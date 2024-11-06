@@ -1,0 +1,5 @@
+{% for post in form.posts %}
+                <div class="post-card">
+                    <img src="/static/uploads/shops/{{ shop.instagram_username }}/posts/{{ post.shortcode.data }}.jpg" alt="{{ post.shortcode }}"> {{ post.selected()}}
+                </div>
+            {% endfor %}

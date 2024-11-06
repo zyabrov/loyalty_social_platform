@@ -1,0 +1,14 @@
+{% block content %}
+<h2>Task was added successfully but was not activated</h2>
+{% include 'task.html' %}   
+<p>Activate the task for {{ task.total_points }} points</p>
+{% if user.points < task.total_points %}
+    {% set points_left = task.total_points - user.points %}
+    <p class="text-danger">You don't have enough points to activate this task. You need buy at least {{ points_left }} points</p>
+    <button type="button" class="btn btn-primary" hx-get="{{ url_for('users.add_points') }}" hx-target="body" hx-trigger="click">Buy more points</button>
+{% else %}
+    <button type="button" class="btn btn-primary" hx-get="{{ url_for('tasks.activate', task_id=task.id)}}" hx-target="body">Activate now</button>
+{% endif %}
+<button type="button" class="btn btn-secondary" hx-get="{{ url_for('tasks.tasks') }}" hx-target="body">Activate latter</button>
+
+{% endblock %}

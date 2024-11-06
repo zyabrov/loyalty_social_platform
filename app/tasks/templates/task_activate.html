@@ -1,0 +1,10 @@
+<div class="pop-up pop-up-center" id="pop-up">
+    <div class="form-container">
+
+        <p>Are you sure you want to activate this task for {{ task.total_points }} points?</p>
+        <div class="buttons row">
+            <button type="button" class="btn btn-primary" hx-get="{{ url_for('tasks.activate_submit', task_id=task.id)}}" hx-target="body">Yes</button>
+            <button type="button" class="btn btn-danger" hx-get="/close_form" hx-target="#pop-up">No</button>
+        </div>
+    </div>
+</div>

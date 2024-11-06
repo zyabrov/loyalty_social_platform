@@ -1,0 +1,45 @@
+<a href="{{ url_for('users.new_user') }}">New User</a>
+
+<table id="users">
+    <tr class="header">
+        <th>ID</th>
+        <th>Username</th>
+        <th>Phone</th>
+        <th>Email</th>
+        <th>Registered Date</th>
+        <th>BonusActions (BA)</th>
+        
+        <th>BA Points Sum</th>
+        <th>Bonuses</th>
+        <th>Tags</th>
+        <th>RewardActions</th>
+        <th>RA Points</th>
+        <th>Ra Points Sum</th>
+        <th>Points Total</th>
+        <th>Reward Actions</th>
+        <th>Rewards</th>
+        <th>Certificates</th>
+    </tr>
+
+    {% for user in users %}
+    <tr class="user_data">
+        <td><a href="{{ url_for('users.user', user_id=user.id) }}">{{ user.id }}</a></td>
+        <td>{{ user.username }}</td>
+        <td>{{ user.phone }}</td>
+        <td>{{ user.email }}</td>
+        <td>{{ user.registered }}</td>
+        
+        <td>{% for bonusaction in user.bonusactions %}<div class="item">{{ bonusaction}}</div> {% endfor %}</td>
+        <td>{{ user.bonusactions | sum(attribute='bonus.points_value') }}</td>
+        <td>{% for bonus in user.bonuses %} <div class="item">{{ bonus }}</div>{% endfor %}</td>
+        <td>{% for tag in user.tags %} <div class="item">{{ tag }}</div>{% endfor %}</td>
+        <td>{% for rewardaction in user.rewardactions %} <div class="item">{{ rewardaction }}</div>{% endfor %}</td>
+        <td>{% for rewardaction in user.rewardactions %}{{ rewardaction.reward.points_costs }} {% endfor %}</td>
+        <td>{{ user.rewardactions | sum(attribute='reward.points_costs') }}</td>
+        <td>{{ user.bonusactions | sum(attribute='bonus.points_value') - user.rewardactions | sum(attribute='reward.points_costs') }}</td>  <!-- Display the sum of bonus.points_value and reward.points_costs for each user -->
+        <td>{% for rewardaction in user.rewardactions %} <div class="item">{{ rewardaction }}</div>{% endfor %}</td>
+        <td>{% for rewardaction in user.rewardactions %} <div class="item">{{ rewardaction.reward }}</div>{% endfor %}</td>
+        <td>{% for certificate in user.certificates %} <div class="item">{{ certificate }}</div>{% endfor %}</td>
+    </tr>
+    {% endfor %}
+</table>

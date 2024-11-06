@@ -1,0 +1,24 @@
+<div class="sidebar">
+    
+    <ul class="nav flex-column">
+        <li class="nav-item">
+            <a class="nav-link active" href="{{ url_for('dashboard.dashboard') }}">Dashboard</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="{{ url_for('tasks.find_task')}}">Find task</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="{{ url_for('tasks.usertasks') }}">My Tasks</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="#">Settings</a>
+        </li>
+    </ul>
+    <div class="bottom-menu">
+        <ul>
+            <li><a href="{{ url_for('users.profile') }}">My Profile</a></li>
+            <li><a href="{{ url_for('users.delete') }}">Delete Account</a></li>
+            <li><a href="{{ url_for('main.help') }}">Help</a></li>
+        </ul>
+    </div>
+</div>

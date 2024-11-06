@@ -1,0 +1,76 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<!-- Display flash messages -->
+{% if form.errors %}
+    {% for error in form.errors %}
+        <span class="text-danger">{{ error }}</span>
+    {% endfor %}
+{% endif %}
+
+
+<!-- Add user form -->
+<form class="form" id="signup_form" method="POST">
+    {{ form.csrf_token }}
+    {{ form.hidden_tag() }}
+
+    <!-- User type -->
+    <div class="form-group">
+        {{ form.user_type.label }}
+        {{ form.user_type }}
+        {% if form.user_type.errors %}
+            {% for error in form.user_type.errors %}
+                <span class="text-danger">{{ error }}</span>
+            {% endfor %}
+        {% endif %}
+    </div>
+
+    <!-- User name -->
+    <div class="form-group">
+        {{ form.name.label }}
+        {{ form.name(class="form-control") }}
+        {% if form.name.errors %}
+            {% for error in form.name.errors %}
+                <span class="text-danger">{{ error }}</span>
+            {% endfor %}
+        {% endif %}
+    </div>
+
+    <!-- User email -->
+    <div class="form-group">
+        {{ form.email.label }}
+        {{ form.email(class="form-control") }}
+        {% if form.email.errors %}
+            {% for error in form.email.errors %}
+                <span class="text-danger">{{ error }}</span>
+            {% endfor %}
+        {% endif %}
+    </div>
+
+    <!-- User phone number -->
+    <div class="form-group">
+        {{ form.phone.label }}
+        {{ form.phone(class="form-control") }}
+        {% if form.phone.errors %}
+            {% for error in form.phone.errors %}
+                <span class="text-danger">{{ error }}</span>
+            {% endfor %}
+        {% endif %}
+    </div>
+
+    <!-- User password -->
+    <div class="form-group">
+        {{ form.password.label }}
+        {{ form.password(class="form-control") }}
+        {% if form.password.errors %}
+            {% for error in form.password.errors %}
+                <span class="text-danger">{{ error }}</span>
+            {% endfor %}
+        {% endif %}
+    </div>
+
+    {{ form.submit(class="btn btn-primary") }}
+
+</form>
+
+{% endblock %}
