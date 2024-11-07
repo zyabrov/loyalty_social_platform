@@ -83,7 +83,7 @@ def start(message, user: User):
     if user.query.filter_by(telegram_id=message['from']['id']).first() is None:
         keyboard = InlineKeyboard()
         user.update(telegram_id=message['from']['id'], telegram_username=message['from']['username'])
-        keyboard.add_button('Go to Dashboard', f'{current_app.config['WEBAPP_URL']}/dashboard')
+        keyboard.add_button('Go to Dashboard', f'{current_app.config.get("WEBAPP_URL")}/dashboard')
         reply_markup = keyboard.to_dict()
         print('reply_markup: ', reply_markup)
         return send_message(message['from']['id'], 'You have successfully activated notifications', reply_markup=reply_markup)
