@@ -21,8 +21,7 @@ import requests
 @bp.route('/webhook', methods=['GET'])
 def webhook():
     response = request.args.get('hub.challenge')
-    print('response: ', response)
-    return 'ok'
+    return response
 
 @bp.route('/get_posts/<int:page_id>/<string:api_token>', methods=['GET', 'POST'])
 @login_required
