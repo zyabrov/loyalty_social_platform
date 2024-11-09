@@ -13,7 +13,7 @@ class Config:
     UPLOAD_FOLDER = os.path.join(basedir, 'app','static', 'uploads')
     BOT_TOKEN = '7434147333:AAGamjeLO4OleLl8xesYecOx6-ezqGyQ-wI'#os.environ.get('BOT_TOKEN')
     BOT_URL = 'https://t.me/rationallife_bot'
-    WEBAPP_URL = 'https://efae-46-118-230-109.ngrok-free.app'
+    WEBAPP_URL = 'https://rationallife.pythonanywhere.com'
     WEBHOOK_URL = f'{WEBAPP_URL}/tg_bot/'
     SHOPS_UPLOAD_DIR = os.path.join(basedir, 'app', 'static', 'uploads', 'shops')
     TEMP_UPLOAD_DIR = os.path.join(basedir, 'app', 'static', 'uploads', 'temp')
@@ -29,6 +29,6 @@ class Config:
     INSTAGRAM_API_URL = 'https://graph.facebook.com/v21.0/'
     INSTAGRAM_ACCESS_MARKER = 'IGQWROU1dfSHNtRGlPbGY0NndwdUhNcUlyOGRaWEo2dFBHbURqQnBCVnY2ejh5ZAHdWVDN5ZAUhtcHRvNU82anI5SmEzQ1BXVUpsOHVZAOTBTVkpwbXFPNmNnVm5qZADdVbWg5dXV0Nkl3T3FJMEpzRWczZAklMMHRPTzAZD'
     INSTAGRAM_APP_CLIENT_ID = 1624464474776380
-    INSTAGRAM_LOGIN_REDIRECT_URL = 'https://2c19-46-118-230-109.ngrok-free.app/instagram/webhook'
+    INSTAGRAM_LOGIN_REDIRECT_URL = WEBAPP_URL + '/instagram/webhook'
     # INSTAGRAM_LOGIN_URL = f'https://www.instagram.com/oauth/authorize?client_id={INSTAGRAM_APP_CLIENT_ID}&redirect_uri={INSTAGRAM_LOGIN_REDIRECT_URL}/&response_type=code&scope=business_basic%2Cbusiness_manage_messages%2Cbusiness_manage_comments%2Cbusiness_content_publish
     # comments, live_comments, message_reactions, messages, messaging_optins, messaging_postbacks, messaging_referral и messaging_seen

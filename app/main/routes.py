@@ -148,3 +148,6 @@ def help():
 @bp.route('/close_form', methods=['GET'])
 def close_form():
     return render_template('pop-up.html')
+
+
+

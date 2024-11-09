@@ -66,6 +66,9 @@ def create_app(config_class=Config):
 
     from app.payments import bp as payments_bp
     app.register_blueprint(payments_bp, url_prefix='/payments')
+
+    from app.legal import bp as legal_bp
+    app.register_blueprint(legal_bp, url_prefix='/legal')
     
-    
+
     return app
